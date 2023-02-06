@@ -1,0 +1,148 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id "kotlin-parcelize"
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
+    id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    namespace 'com.sosmartlabs.watchsteps'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.sosmartlabs.watchsteps"
+        minSdk 27
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        setProperty("archivesBaseName", "steps")
+
+        signingConfigs {
+            // Stored locally in gradle.properties
+            release {
+                storeFile file("../keystore.jks")
+                storePassword SoyMomoStorePasswordLocal
+                keyAlias SoyMomoWatchKeyAliasLocal
+                keyPassword SoyMomoWatchKeyPasswordLocal
+            }
+
+            pre_release {
+                storeFile file("../keystore.jks")
+                storePassword SoyMomoStorePasswordLocal
+                keyAlias SoyMomoWatchKeyAliasLocal
+                keyPassword SoyMomoWatchKeyPasswordLocal
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        pre_release {
+            minifyEnabled false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        develop {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            versionNameSuffix "-develop"
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            versionNameSuffix "-debug"
+        }
+
+    }
+
+    // Setup DataBinding and ViewBinding
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation "androidx.emoji:emoji:$emoji_version"
+    implementation "androidx.emoji:emoji-bundled:$emoji_version"
+
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:29.1.0')
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-perf-ktx'
+
+    // Parse
+    implementation "com.github.parse-community:Parse-SDK-Android:$parse_version"
+    implementation "com.github.parse-community.Parse-SDK-Android:ktx:$parse_version"
+    implementation "com.github.parse-community.Parse-SDK-Android:coroutines:$parse_version"
+    implementation 'com.github.parse-community:ParseLiveQuery-Android:1.2.2'
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kapt "androidx.hilt:hilt-compiler:1.0.0"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "androidx.hilt:hilt-work:1.0.0"
+
+    // Other
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+    implementation 'com.google.code.gson:gson:2.10'
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    implementation 'com.airbnb.android:lottie:5.2.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.github.2coffees1team:GlideToVectorYou:v2.0.0'
+}

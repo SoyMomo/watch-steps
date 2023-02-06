@@ -1,0 +1,3 @@
+
+rootProject.name = "Watch Steps"
+include ':app'

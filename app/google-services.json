@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "127294947287",
+    "project_id": "soymomo-watch-steps",
+    "storage_bucket": "soymomo-watch-steps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127294947287:android:ca779bfd93ed68930ad592",
+        "android_client_info": {
+          "package_name": "com.sosmartlabs.watchsteps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127294947287-kc5baotnt0ss95pqomkgaj71paqmt9v0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sosmartlabs.watchsteps",
+            "certificate_hash": "ee07fb65c6531d405be5f9408fd27a3541780d4c"
+          }
+        },
+        {
+          "client_id": "127294947287-g4dobb833ncng9rrsptgmb5ths09pmbh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP7DYJetiMFnpG2rJ_yEUCciYuOL-Qvd4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127294947287-g4dobb833ncng9rrsptgmb5ths09pmbh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
