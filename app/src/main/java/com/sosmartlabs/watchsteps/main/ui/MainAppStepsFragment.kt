@@ -55,12 +55,12 @@ class MainAppStepsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = FragmentMainBinding.inflate(
+        binding = FragmentMainBinding.inflate(
             inflater,
             container,
             false
         )
-        return view.root
+        return binding.root
     }
 
     override fun onDestroy() {
