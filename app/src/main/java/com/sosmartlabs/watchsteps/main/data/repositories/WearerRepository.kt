@@ -14,6 +14,7 @@ import kotlin.coroutines.CoroutineContext
 class WearerRepository @Inject constructor(
     private val deviceRepository: DeviceRepository,
 ) {
+
     private lateinit var wearer: Wearer
 
     @Inject
@@ -21,7 +22,6 @@ class WearerRepository @Inject constructor(
 
     @Inject
     lateinit var externalScope: CoroutineScope
-
     fun getWearer(): Wearer {
         if (::wearer.isInitialized) {
             return wearer

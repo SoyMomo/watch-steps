@@ -104,7 +104,6 @@ dependencies {
     implementation "androidx.emoji:emoji:$emoji_version"
     implementation "androidx.emoji:emoji-bundled:$emoji_version"
 
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:29.1.0')
@@ -145,4 +144,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.github.2coffees1team:GlideToVectorYou:v2.0.0'
+    implementation 'com.mikhaellopez:circularprogressbar:3.1.0'
 }

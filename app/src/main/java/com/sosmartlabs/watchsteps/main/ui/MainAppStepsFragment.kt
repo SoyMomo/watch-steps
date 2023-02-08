@@ -1,4 +1,120 @@
 package com.sosmartlabs.watchsteps.main.ui
 
-class MainAppStepsFragment {
+import android.content.*
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.sosmartlabs.watchsteps.OnFriendClickListener
+import com.sosmartlabs.watchsteps.databinding.FragmentMainBinding
+import com.sosmartlabs.watchsteps.main.adapters.FriendWearerListAdapter
+import com.sosmartlabs.watchsteps.main.data.model.FriendWearer
+import com.sosmartlabs.watchsteps.main.data.model.Wearer
+import com.sosmartlabs.watchsteps.main.ui.viewmodels.FriendWearerViewModel
+import com.sosmartlabs.watchsteps.main.ui.viewmodels.WearerViewModel
+import com.sosmartlabs.watchsteps.util.Constants
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+
+
+@AndroidEntryPoint
+class MainAppStepsFragment : Fragment() {
+
+    private lateinit var binding: FragmentMainBinding
+    private lateinit var adapter: FriendWearerListAdapter
+
+    //private val viewModel: MainAppStepsViewModel by viewModels()
+    private val contactViewModel: FriendWearerViewModel by viewModels()
+    private val wearerViewModel: WearerViewModel by viewModels()
+
+    lateinit var wearer: Wearer
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Timber.d("onCreate: ")
+
+        // Send broadcast to brain to query watch users
+        val broadcastIntent = Intent("com.sosmartlabs.soymomobrain.receivers.SyncContactsReceiver")
+        broadcastIntent.component = ComponentName(
+            "com.sosmartlabs.soymomobrain",
+            "com.sosmartlabs.soymomobrain.receivers.SyncContactsReceiver"
+        )
+        broadcastIntent.putExtra("action", 0)
+        requireContext().sendBroadcast(broadcastIntent)
+
+        // Receiver for real time contacts
+        requireContext().registerReceiver(refreshContactsReceiver, IntentFilter("${Constants.pkgSoyMomoBrainCommons}.refreshContacts"))
+    }
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val view = FragmentMainBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+        return view.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.d("onDestroy: ")
+        requireContext().unregisterReceiver(refreshContactsReceiver)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setRecyclerView()
+        observeViewModel()
+    }
+
+    private fun setRecyclerView() {
+        adapter = FriendWearerListAdapter().apply {
+            listener = object : OnFriendClickListener {
+                override fun onFriendClickedListener(friendWearer: FriendWearer) {
+                    Timber.d("onFriendClickedListener: $friendWearer")
+                }
+            }
+        }
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun observeViewModel() {
+        wearerViewModel.wearer.observe(viewLifecycleOwner) {
+            Timber.d("observeViewModel: wearer: $it")
+            wearer = it
+            contactViewModel.fetchFriendWearers(it)
+        }
+        contactViewModel.friendWearers.observe(viewLifecycleOwner) {
+            Timber.d("observeViewModel: friendWearers: $it")
+            adapter.submitList(it)
+            if(contactViewModel.friendWearers.value!!.isEmpty()){
+                Timber.d("onReceive() - No contacts")
+                binding.recyclerView.visibility = View.GONE
+                //binding.empty.visibility = View.VISIBLE
+            }
+        }
+    }
+
+
+    private val refreshContactsReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Timber.d("onReceive()")
+            contactViewModel.fetchFriendWearers(wearer)
+            Timber.d("friends: ${contactViewModel.friendWearers.value}")
+            if(contactViewModel.friendWearers.value!!.isEmpty()){
+                Timber.d("onReceive() - No contacts")
+                binding.recyclerView.visibility = View.GONE
+                //binding.empty.visibility = View.VISIBLE
+            }
+        }
+    }
 }

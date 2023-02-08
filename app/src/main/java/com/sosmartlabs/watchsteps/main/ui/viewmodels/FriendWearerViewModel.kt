@@ -1,4 +1,4 @@
-package com.sosmartlabs.watchsteps.main.ui
+package com.sosmartlabs.watchsteps.main.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -3,6 +3,7 @@ package com.sosmartlabs.watchsteps
 import android.os.Build
 import android.util.Base64
 import androidx.databinding.ktx.BuildConfig
+import com.facebook.appevents.internal.Constants
 import com.google.firebase.crashlytics.internal.model.CrashlyticsReport.Session.Event.Application
 import com.parse.Parse
 import com.parse.ParseObject
@@ -13,6 +14,8 @@ import com.sosmartlabs.watchsteps.main.data.model.WatchWearer
 import com.sosmartlabs.watchsteps.main.data.model.Wearer
 import com.sosmartlabs.watchsteps.main.data.repositories.DeviceRepository
 import com.sosmartlabs.watchsteps.main.data.repositories.WearerRepository
+import com.sosmartlabs.watchsteps.util.Constants.Companion.EMULATOR_ARM
+import com.sosmartlabs.watchsteps.util.Constants.Companion.EMULATOR_X86
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import java.text.ParseException
@@ -21,6 +24,7 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class WatchStepsApplication: android.app.Application(){
+
     @Inject
     lateinit var deviceRepository: DeviceRepository
 
@@ -106,7 +110,7 @@ class WatchStepsApplication: android.app.Application(){
     }
 
     private fun isRunningOnSpace3Emulator(): Boolean {
-        if (Build.MODEL in listOf("Android SDK built for arm64", "Android SDK built for x86") && Build.VERSION.SDK_INT == 27) {
+        if (Build.MODEL in listOf(EMULATOR_ARM, EMULATOR_X86) && Build.VERSION.SDK_INT == 27) {
             return true
         }
         return false
