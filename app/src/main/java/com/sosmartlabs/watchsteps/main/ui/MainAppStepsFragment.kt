@@ -1,10 +1,12 @@
 package com.sosmartlabs.watchsteps.main.ui
 
 import android.content.*
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import com.sosmartlabs.watchsteps.main.adapters.FriendWearerListAdapter
 import com.sosmartlabs.watchsteps.main.data.model.FriendWearer
 import com.sosmartlabs.watchsteps.main.data.model.Wearer
 import com.sosmartlabs.watchsteps.main.ui.viewmodels.FriendWearerViewModel
+import com.sosmartlabs.watchsteps.main.ui.viewmodels.PedometerViewModel
 import com.sosmartlabs.watchsteps.main.ui.viewmodels.WearerViewModel
 import com.sosmartlabs.watchsteps.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,21 +32,14 @@ class MainAppStepsFragment : Fragment() {
     //private val viewModel: MainAppStepsViewModel by viewModels()
     private val contactViewModel: FriendWearerViewModel by viewModels()
     private val wearerViewModel: WearerViewModel by viewModels()
+    private val pedometerViewModel: PedometerViewModel by viewModels()
 
     lateinit var wearer: Wearer
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate: ")
-
-        // Send broadcast to brain to query watch users
-        val broadcastIntent = Intent("com.sosmartlabs.soymomobrain.receivers.SyncContactsReceiver")
-        broadcastIntent.component = ComponentName(
-            "com.sosmartlabs.soymomobrain",
-            "com.sosmartlabs.soymomobrain.receivers.SyncContactsReceiver"
-        )
-        broadcastIntent.putExtra("action", 0)
-        requireContext().sendBroadcast(broadcastIntent)
 
         // Receiver for real time contacts
         requireContext().registerReceiver(refreshContactsReceiver, IntentFilter("${Constants.pkgSoyMomoBrainCommons}.refreshContacts"))
@@ -103,8 +99,6 @@ class MainAppStepsFragment : Fragment() {
             }
         }
     }
-
-
     private val refreshContactsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             Timber.d("onReceive()")
