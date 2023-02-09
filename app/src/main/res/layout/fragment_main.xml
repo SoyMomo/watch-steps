@@ -28,8 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="-10dp"
-            tools:text="Hoy"
-            android:text="Hoy"
+            tools:text="Today"
+            android:text="@string/today"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -57,8 +57,7 @@
             android:textSize="25sp"
             app:layout_constraintEnd_toStartOf="@id/star"
             app:layout_constraintTop_toTopOf="parent"/>
-
-
+        
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -111,7 +110,7 @@
             android:id="@+id/steps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pasos"
+            android:text="@string/steps"
             android:textStyle="bold"
             android:textSize="40sp"
             android:textColor="#FFFFFF"
@@ -144,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="Amigos"
+                android:text="@string/friends"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"

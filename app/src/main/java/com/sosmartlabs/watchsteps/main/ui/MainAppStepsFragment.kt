@@ -1,15 +1,17 @@
 package com.sosmartlabs.watchsteps.main.ui
 
-import android.content.*
-import android.hardware.SensorManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sosmartlabs.watchfriends.utils.NetworkStateChecker
 import com.sosmartlabs.watchsteps.OnFriendClickListener
 import com.sosmartlabs.watchsteps.databinding.FragmentMainBinding
 import com.sosmartlabs.watchsteps.main.adapters.FriendWearerListAdapter
@@ -43,6 +45,8 @@ class MainAppStepsFragment : Fragment() {
 
         // Receiver for real time contacts
         requireContext().registerReceiver(refreshContactsReceiver, IntentFilter("${Constants.pkgSoyMomoBrainCommons}.refreshContacts"))
+
+        setupViewModel()
     }
 
 
@@ -67,8 +71,17 @@ class MainAppStepsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setRecyclerView()
-        observeViewModel()
+        //Check for internet connection
+        if (NetworkStateChecker.isThereInternetConnection(requireContext())) {
+            setRecyclerView()
+            observeViewModel()
+            binding.recyclerView.visibility = View.VISIBLE
+        } else {
+            Timber.d("No internet connection")
+            // Set no internet connection view
+            binding.recyclerView.visibility = View.GONE
+        }
+
     }
 
     private fun setRecyclerView() {
@@ -110,5 +123,9 @@ class MainAppStepsFragment : Fragment() {
                 //binding.empty.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun setupViewModel() {
+        // TODO: Use the Pedometer ViewModel
     }
 }

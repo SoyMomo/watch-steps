@@ -4,7 +4,7 @@ class Constants {
 
     companion object {
 
-        val pkgSoyMomoBrainCommons = "com.sosmartlabs.soymomobrain.commons"
+        const val pkgSoyMomoBrainCommons = "com.sosmartlabs.soymomobrain.commons"
 
         const val EMULATOR_ARM = "Android SDK built for arm64"
         const val EMULATOR_X86 = "Android SDK built for x86"

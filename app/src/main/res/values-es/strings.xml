@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Pasos</string>
+    <string name="contact_no_name">Sin Nombre</string>
+    <string name="steps">Pasos</string>
+    <string name="friends">Amigos</string>
+    <string name="today">Hoy</string>
+
 </resources>

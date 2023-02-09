@@ -18,7 +18,11 @@ data class FriendWearer(
     ): Parcelable {
 
     override fun toString(): String {
-        return "objectID: $objectId, deviceId: $deviceId, name: $firstName $lastName, isApproved: $isApproved, hearts: $hearts, phoneNumber: $phoneNumber, avatar: ${isAvatarNull(avatar)}"
+        return "objectID: $objectId, deviceId: $deviceId, name: $firstName $lastName, isApproved: $isApproved, hearts: $hearts, phoneNumber: $phoneNumber, avatar: ${
+            isAvatarNull(
+                avatar
+            )
+        }"
     }
 
     private fun isAvatarNull(avatar: Avatar?): String {
@@ -29,16 +33,15 @@ data class FriendWearer(
         }
     }
 
-    fun name(context: Context): String{
+    fun name(context: Context): String {
         return if (firstName != null && lastName != null) {
             "$firstName $lastName"
         } else if (firstName != null) {
             "$firstName"
-        }  else if (lastName != null) {
+        } else if (lastName != null) {
             "$lastName"
         } else {
             context.getString(R.string.contact_no_name)
         }
     }
-
 }

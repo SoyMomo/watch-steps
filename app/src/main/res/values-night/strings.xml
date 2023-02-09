@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="contact_no_name">No Name</string>
+    <string name="steps">Steps</string>
+    <string name="today">Today</string>
+    <string name="friends">Friends</string>
 </resources>
