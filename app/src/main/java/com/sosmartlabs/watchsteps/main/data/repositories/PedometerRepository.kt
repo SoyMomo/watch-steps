@@ -1,19 +1,24 @@
 package com.sosmartlabs.watchsteps.main.data.repositories
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import com.sosmartlabs.watchsteps.main.data.PedometerDao
 import com.sosmartlabs.watchsteps.main.data.PedometerRoomDatabase
 import com.sosmartlabs.watchsteps.main.data.model.PedometerData
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PedometerRepository(application: Application) {
+@Singleton
+class PedometerRepository @Inject constructor(@ApplicationContext private val context: Context) {
     private val pedometerDao: PedometerDao
     private val pedometerData: LiveData<PedometerData>
 
     init {
-        val database = PedometerRoomDatabase.getInstance(application)
+        val database = PedometerRoomDatabase.getInstance(context)
         pedometerDao = database.pedometerDao()
         pedometerData = pedometerDao.getPedometerData(getCurrentDate())
     }

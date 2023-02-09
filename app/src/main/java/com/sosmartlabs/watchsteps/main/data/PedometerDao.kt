@@ -12,9 +12,9 @@ interface PedometerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPedometerData(pedometerData: PedometerData)
 
-    @Query("SELECT * FROM PedometerData WHERE date = :date")
+    @Query("SELECT * FROM pedometer_table WHERE date = :date")
     fun getPedometerData(date: String): LiveData<PedometerData>
 
-    @Query("DELETE FROM PedometerData WHERE date < :date")
+    @Query("DELETE FROM pedometer_table WHERE date < :date")
     fun deleteOldData(date: String)
 }

@@ -8,7 +8,6 @@ import android.text.format.DateUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sosmartlabs.watchsteps.main.data.PedometerRoomDatabase
 import com.sosmartlabs.watchsteps.main.data.model.Pedometer
 import com.sosmartlabs.watchsteps.main.data.model.PedometerData
 import com.sosmartlabs.watchsteps.main.data.repositories.PedometerRepository
@@ -22,10 +21,6 @@ class PedometerViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var pedometer: Pedometer = Pedometer(running = false, totalSteps = 0f, previousTotalSteps = 0f)
-
-    private val pedometerDatabase = PedometerRoomDatabase.getInstance(application)
-
-    private val pedometerDao = pedometerDatabase.pedometerDao()
 
     fun start() {
         pedometer.running = true
@@ -44,11 +39,11 @@ class PedometerViewModel @Inject constructor(
 
     fun insertPedometerData(pedometerData: PedometerData) {
         viewModelScope.launch(Dispatchers.IO) {
-            pedometerDao.insertPedometerData(pedometerData)
+            pedometerRepository.insertPedometerData(pedometerData)
         }
     }
 
     fun getAllPedometerData(): LiveData<PedometerData> {
-        return pedometerDao.getPedometerData(DateUtils.formatDateTime(application, System.currentTimeMillis(), DateUtils.FORMAT_SHOW_DATE))
+        return pedometerRepository.getPedometerData(DateUtils.formatDateTime(application, System.currentTimeMillis(), DateUtils.FORMAT_SHOW_DATE))
     }
 }
