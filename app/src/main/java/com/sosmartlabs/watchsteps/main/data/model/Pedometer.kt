@@ -12,8 +12,7 @@ data class Pedometer(
     var sensorManager: SensorManager? = null,
 ) : SensorEventListener {
     fun resetSteps() {
-        totalSteps = 0f
-        previousTotalSteps = 0f
+        previousTotalSteps = totalSteps
     }
 
     override fun onSensorChanged(event: SensorEvent) {

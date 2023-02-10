@@ -67,6 +67,7 @@ class MainAppStepsFragment : Fragment() {
         super.onDestroy()
         Timber.d("onDestroy: ")
         requireContext().unregisterReceiver(refreshContactsReceiver)
+        pedometerViewModel.stop()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -112,6 +113,7 @@ class MainAppStepsFragment : Fragment() {
             }
         }
     }
+
     private val refreshContactsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             Timber.d("onReceive()")
@@ -127,5 +129,6 @@ class MainAppStepsFragment : Fragment() {
 
     private fun setupViewModel() {
         // TODO: Use the Pedometer ViewModel
+        pedometerViewModel.start()
     }
 }
